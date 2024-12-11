@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AboutSection() {
     return (
         <section className="py-12 bg-gray-50">
@@ -14,15 +16,15 @@ export default function AboutSection() {
                         <p className="text-gray-600 mb-6">Handcrafted and lovingly crafted furniture and homeware is what we live,
                             breathe and design so our Chelsea boutique can become the hotspot for the London interior design community.
                         </p>
-                        <button className="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600">
+                        <Link href="/ProductListing"><button className="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600">
                             Get in touch
-                        </button>
+                        </button></Link>
                     </div>
 
                     {/* Right Side: Image */}
                     <div className="flex justify-center">
                         <img
-                            src="/images/about-image.png" // Replace with your image path
+                            src="/images/about-image.png"
                             alt="About Avion"
                             className="rounded-md w-full max-w-xl lg:max-w-2xl object-cover"
                         />

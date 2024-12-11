@@ -27,12 +27,14 @@ const Navbar = () => {
                     Avion
                 </h1>
 
-                {/* Cart and Contact Icons for Large Screens */}
-                <div className="sm:hidden md:flex gap-4">
+                {/* Cart and Contact Icons for Mobile */}
+                <div className="flex items-center gap-4">
                     <Link href="/Cart">
                         <IoCartOutline size={25} className="text-[#2A254B]" />
                     </Link>
-                    <IoIosContact size={25} className="text-[#2A254B]" />
+                    <Link href="/Profile">
+                        <IoIosContact size={25} className="text-[#2A254B]" />
+                    </Link>
                 </div>
 
                 {/* Hamburger Menu for Mobile */}
@@ -66,12 +68,19 @@ const Navbar = () => {
                 )}
 
                 <ul className="flex flex-col md:flex-row justify-center items-start md:items-center gap-4 md:gap-8 text-[#726E8D] text-base p-6 md:p-0">
-                    {['Plant pots', 'Ceramics', 'Tables', 'Chairs', 'Crockery', 'Tableware', 'Cutlery'].map((item) => (
-                        <li key={item}>
-                            <a href="/">{item}</a>
+                    {[
+                        { name: 'Home', link: '/' },
+                        { name: 'About', link: '/About' },
+                        { name: 'Sign Up', link: '/Signup' },
+                        { name: 'Products', link: '/ProductListing' },
+                        // { name: 'Crockery', link: '/crockery' },
+                        // { name: 'Tableware', link: '/tableware' },
+                        // { name: 'Cutlery', link: '/cutlery' },
+                    ].map((item) => (
+                        <li key={item.name}>
+                            <Link href={item.link}>{item.name}</Link>
                         </li>
                     ))}
-
                 </ul>
             </header>
         </div>

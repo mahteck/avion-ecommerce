@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
     return (
         <div>
@@ -62,9 +64,9 @@ export default function Hero() {
 
                 {/* Centered "View Collection" button */}
                 <div className="text-center mt-6">
-                    <button className="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600">
+                    <Link href="/ProductListing"><button className="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600">
                         View Collection
-                    </button>
+                    </button></Link>
                 </div>
             </section>
         </div>

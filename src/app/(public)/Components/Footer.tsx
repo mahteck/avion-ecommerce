@@ -16,7 +16,7 @@ const Footer = () => {
                             <h1><Link href={'/'}>Best sellers</Link></h1>
                             <h1><Link href={'/'}>Recently viewed</Link></h1>
                             <h1><Link href={'/'}>Popular this week</Link></h1>
-                            <h1><Link href={'/'}>All Products</Link></h1>
+                            <h1><Link href={'/ProductListing'}>All Products</Link></h1>
                         </div>
                     </div>
 
@@ -36,11 +36,11 @@ const Footer = () => {
                     <div className="text-gray-500 w-full sm:w-auto">
                         <h1 className="text-lg md:text-xl font-bold">Our Company</h1>
                         <div className='space-y-2'>
-                            <h1><Link href='/about'>About us</Link></h1>
-                            <h1><Link href={'/'}>Vacancies</Link></h1>
-                            <h1><Link href={'/'}>Contact us</Link></h1>
-                            <h1><Link href={'/'}>Privacy</Link></h1>
-                            <h1><Link href={'/'}>Return policy</Link></h1>
+                            <h1><Link href='/About'>About us</Link></h1>
+                            <h1><Link href={'/Vacancies'}>Vacancies</Link></h1>
+                            <h1><Link href={'/Contactus'}>Contact us</Link></h1>
+                            <h1><Link href={'/Privacy'}>Privacy</Link></h1>
+                            <h1><Link href={'/ReturnPolicy'}>Return policy</Link></h1>
                         </div>
                     </div>
 
