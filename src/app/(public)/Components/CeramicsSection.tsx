@@ -66,7 +66,8 @@ export default function Hero() {
                 <div className="text-center mt-6">
                     <Link href="/ProductListing"><button className="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600">
                         View Collection
-                    </button></Link>
+                    </button>
+                    </Link>
                 </div>
             </section>
         </div>

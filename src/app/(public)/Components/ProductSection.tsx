@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ProductSection() {
     return (
         <section className="py-12 bg-gray-50">
@@ -41,9 +43,10 @@ export default function ProductSection() {
 
             {/* Centered View Collection Button */}
             <div className="text-center mt-6">
-                <button className="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600">
+                <Link href={"/ProductListing"}><button className="bg-gray-700 text-white px-6 py-3 rounded-md hover:bg-gray-600">
                     View Collection
                 </button>
+                </Link>
             </div>
         </section>
     );
