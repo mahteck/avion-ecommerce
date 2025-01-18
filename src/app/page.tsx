@@ -1,9 +1,8 @@
-import Features from "./(public)/Components/Features";
-import CeramicsSection from "./(public)/Components/CeramicsSection";
-import ProductSection from "./(public)/Components/ProductSection";
-import About from "./(public)/Components/About";
-import HeroSection from "./(public)/Components/HeroSection";
-import SignupSection from "./(public)/Components/SignupSection";
+import Features from "./Components/Features";
+import CeramicsSection from "./Components/CeramicsSection";
+import About from "./Components/About";
+import HeroSection from "./Components/HeroSection";
+import ProductSection from "./Components/ProductSection";
 
 export default function Home() {
   return (
@@ -14,7 +13,6 @@ export default function Home() {
         <Features />
         <CeramicsSection />
         <ProductSection />
-        <SignupSection />
         <About />
       </main>
     </div>
