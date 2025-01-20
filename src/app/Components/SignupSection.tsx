@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SignupSection() {
     return (
         <div>
@@ -19,9 +21,10 @@ export default function SignupSection() {
                                     placeholder="your@email.com"
                                     className="p-4 bg-[#F9F9F9] w-full md:w-[354px] h-[56px] outline-none mb-4 md:mb-0"
                                 />
-                                <button className='p-2 bg-[#2A254B] text-white w-full md:w-[118px] h-[56px]'>
+                                <Link href="/Signup"><button className='p-2 bg-[#2A254B] text-white w-full md:w-[118px] h-[56px]'>
                                     Signup
                                 </button>
+                                </Link>
                             </form>
                         </div>
                     </div>

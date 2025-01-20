@@ -3,6 +3,7 @@
 import { useCart } from "@/context/CartContext";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Cart() {
     const { cartItems, removeFromCart } = useCart(); // Use cartItems dynamically
@@ -83,10 +84,19 @@ export default function Cart() {
                                     className="grid grid-cols-3 md:grid-cols-4 gap-4 items-center"
                                 >
                                     <div className="flex items-center space-x-4">
-                                        <img
-                                            src={item.image || "/images/default.png"}
+                                        {/* <img
+                                            src={item.imageUrl || "/images/default.png"} // Use dynamic image URL or fallback
                                             alt={item.name}
                                             className="w-24 h-24 object-cover rounded-md border border-gray-100"
+                                        /> */}
+                                        <Image
+                                            src={item.imageUrl || "/images/default.png"} // Use dynamic image URL or fallback
+                                            alt={item.name}
+                                            width={96} // Specify the width of the image (e.g., 24px * 4 for w-24)
+                                            height={96} // Specify the height of the image (e.g., 24px * 4 for h-24)
+                                            className="object-cover rounded-md border border-gray-100"
+                                            placeholder="blur"
+                                            blurDataURL="/images/placeholder.png" // Optional: Provide a low-quality placeholder image
                                         />
                                         <div>
                                             <h3 className="font-semibold text-gray-800">

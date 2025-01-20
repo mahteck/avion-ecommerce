@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { client } from "@/sanity/lib/client";
+import Link from "next/link";
 
 interface Category {
     name: string;
@@ -15,55 +15,128 @@ interface Product {
     category: Category | null;
 }
 
-export default async function ProductListing() {
+interface Props {
+    searchParams: {
+        category?: string;
+        search?: string;
+    };
+}
 
-    const data: Product[] = await client.fetch(
-        `*[_type == "product"]{
+export default async function ProductListing({ searchParams }: Props) {
+    const { category, search } = searchParams;
+
+    let query = "";
+    let queryParams: { [key: string]: string | null } = {};
+
+    if (search) {
+        // If search term is provided
+        query = `*[_type == "product" && (name match $search || category->name match $search)]{
             id,
             name,
             price,
             "imageUrl": image.asset->url,
             "slug": slug,
-            features,
-            description,
-            dimensions,
             category->{
                 name
             }
-        }`
-    );
+        }`;
+        queryParams = { search: `${search}*` }; // Use wildcards for partial matches
+    } else if (category) {
+        // If category is provided
+        query = `*[_type == "product" && category->name == $category]{
+            id,
+            name,
+            price,
+            "imageUrl": image.asset->url,
+            "slug": slug,
+            category->{
+                name
+            }
+        }`;
+        queryParams = { category };
+    } else {
+        // Default query for all products
+        query = `*[_type == "product"]{
+            id,
+            name,
+            price,
+            "imageUrl": image.asset->url,
+            "slug": slug,
+            category->{
+                name
+            }
+        }`;
+    }
 
-    const products: Product[] = data;
-    console.log(`Product Data: ${data}`);
+    const products: Product[] = await client.fetch(query, queryParams);
 
     return (
         <div className="bg-white py-10 px-6 md:px-12 lg:px-24">
-            <h1 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-6">All Products</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {products.map((product: Product, index: number) => (
-                    <div key={product.id} className="group">
-                        <Link href={`/ProductDetail/${product.slug}`}>
-                            <div className="relative">
-                                <img
-                                    src={product.imageUrl}
-                                    alt={product.name}
-                                    className="w-full h-auto object-cover rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300"
-                                />
-                            </div>
-                        </Link>
-                        <div className="mt-4 text-center">
-                            <h2 className="text-lg font-medium text-gray-700">{product.name}</h2>
-                            <p className="text-sm font-semibold text-gray-500">{product.price}</p>
-                        </div>
-                    </div>
-                ))}
+            {/* Responsive Banner Section */}
+            <div
+                className="relative w-full h-60 sm:h-80 lg:h-96 bg-cover bg-center mb-10 rounded-lg shadow-lg overflow-hidden"
+                style={{ backgroundImage: "url('/images/product-banner.png')" }}
+            >
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                    <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-white text-center">
+                        {search
+                            ? `Search Results for "${search}"`
+                            : category
+                                ? `Products in "${category}"`
+                                : "All Products"}
+                    </h1>
+                </div>
             </div>
+
+            {/* Product Section */}
+            <h1 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-6">
+                {search
+                    ? `Search Results for "${search}"`
+                    : category
+                        ? `Products in "${category}"`
+                        : "All Products"}
+            </h1>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {products.length > 0 ? (
+                    products.map((product: Product) => (
+                        <div
+                            key={product.id}
+                            className="group flex flex-col items-center bg-gray-50 rounded-lg shadow-md overflow-hidden"
+                        >
+                            <Link href={`/ProductDetail/${product.id}`}>
+                                <div className="relative w-full h-64">
+                                    <img
+                                        src={product.imageUrl || "/images/default.png"}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                </div>
+                            </Link>
+                            <div className="flex flex-col items-center p-4 w-full">
+                                <h2 className="text-lg font-medium text-gray-700 text-center">
+                                    {product.name}
+                                </h2>
+                                <p className="text-sm font-semibold text-gray-500 text-center mt-2">
+                                    {product.price ? `£${product.price}` : "Price Not Available"}
+                                </p>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-center text-gray-500 col-span-4">
+                        No products found matching your search.
+                    </p>
+                )}
+            </div>
+
             <div className="flex justify-center mt-10">
-                <button className="px-6 py-3 bg-gray-300 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
-                    View Collection
-                </button>
+                <Link href={{ pathname: '/ProductListing', query: {} }}>
+                    <button className="px-6 py-3 bg-gray-300 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                        View All Products
+                    </button>
+                </Link>
             </div>
         </div>
     );
 }
-

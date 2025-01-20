@@ -6,6 +6,7 @@ import { IoIosContact } from 'react-icons/io';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
+import { useRouter } from 'next/navigation'; // For client-side navigation
 import { useCart } from '@/context/CartContext';
 
 type Category = {
@@ -17,7 +18,10 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
-    const { cartItems } = useCart();  // Correct usage of cartItems
+    const [searchQuery, setSearchQuery] = useState(''); // State for search input
+    const [showSearchBar, setShowSearchBar] = useState(false); // State for showing search bar on small devices
+    const router = useRouter();
+    const { cartItems } = useCart(); // Correct usage of cartItems
 
     const cartCount = Array.isArray(cartItems) ? cartItems.length : 0;
 
@@ -38,44 +42,49 @@ export default function Navbar() {
         fetchCategories();
     }, []);
 
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim() !== '') {
+            router.push(`/ProductListing?search=${encodeURIComponent(searchQuery)}`);
+            setSearchQuery(''); // Clear search input
+        }
+    };
+
+    const handleSearchIconClick = () => {
+        setShowSearchBar(!showSearchBar);
+    };
+
     return (
         <div className="p-4 w-full h-auto">
             {/* Top Section */}
-            <div className="flex justify-between items-center py-2">
-                {/* Search Icon for Large Screens (Tablet and above) */}
-                <div className="sm:hidden md:block">
-                    <CiSearch size={25} className="text-[#2A254B]" />
+            <div className="flex justify-between items-center py-2 relative">
+                {/* Search Form for Larger Screens */}
+                <div className="hidden sm:flex items-center w-full max-w-md">
+                    <form onSubmit={handleSearch} className="flex w-full">
+                        <input
+                            type="text"
+                            placeholder="Search products or categories..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full px-4 py-2 border rounded-l-lg focus:outline-none"
+                        />
+                        <button
+                            type="submit"
+                            className="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700"
+                        >
+                            <CiSearch size={20} />
+                        </button>
+                    </form>
                 </div>
 
                 {/* Logo */}
-                {/* <Link href="/">
-                <h1 className="text-[#22202E] text-xl md:text-2xl md:absolute md:left-1/2 md:transform 
-                md:-translate-x-1/2">
-                    Avion
-                </h1>
-                </Link> */}
-
                 <Link href="/">
                     <h1 className="text-[#22202E] text-xl md:text-2xl md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:top-6">
                         Avion
                     </h1>
                 </Link>
 
-                {/* Cart and Contact Icons for Mobile */}
-                {/* <div className="flex items-center gap-4">
-                    <Link href="/Cart">
-                        <IoCartOutline size={25} className="text-[#2A254B]" />
-                        {cartCount > 0 && (
-                            <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 py-1 text-xs shadow-md">
-                                {cartCount}
-                            </span>
-                        )}
-                    </Link>
-                    <Link href="/Profile">
-                        <IoIosContact size={25} className="text-[#2A254B]" />
-                    </Link>
-                </div> */}
-
+                {/* Cart and Profile Icons */}
                 <div className="flex items-center gap-4">
                     {/* Cart Icon with Count */}
                     <div className="relative">
@@ -97,7 +106,6 @@ export default function Navbar() {
 
                 {/* Hamburger Menu for Mobile */}
                 <div className="flex items-center gap-4 md:hidden">
-                    <CiSearch size={25} className="text-[#2A254B]" />
                     <button
                         className="text-2xl focus:outline-none z-30"
                         onClick={toggleMenu}
@@ -126,11 +134,9 @@ export default function Navbar() {
                 )}
 
                 <ul className="flex flex-col md:flex-row justify-center items-start md:items-center gap-4 md:gap-8 text-[#726E8D] text-base p-6 md:p-0">
-                    {categories.map((category, index) => (
-                        <li key={`category-${index}`}>
-                            <Link href={`/Category/${category.slug}`}
-                            // onClick={() => setIsOpen(false)}
-                            >
+                    {categories.map((category: { name: string }) => (
+                        <li key={category.name}>
+                            <Link href={`/ProductListing?category=${category.name}`}>
                                 <div className="text-gray-800 hover:text-purple-600 font-medium">
                                     {category.name}
                                 </div>
@@ -139,6 +145,37 @@ export default function Navbar() {
                     ))}
                 </ul>
             </header>
-        </div >
+
+            {/* Mobile Search Bar */}
+            {showSearchBar && (
+                <div className="sm:hidden w-full">
+                    <form onSubmit={handleSearch} className="flex w-full bg-white p-4 fixed top-0 left-0 z-50 shadow-lg">
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full px-4 py-2 border rounded-l-lg focus:outline-none"
+                        />
+                        <button
+                            type="submit"
+                            className="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700"
+                        >
+                            <CiSearch size={20} />
+                        </button>
+                    </form>
+                </div>
+            )}
+
+            {/* Mobile Show/Hide Search Button */}
+            <div className="sm:hidden flex justify-between items-center py-4">
+                <button
+                    onClick={handleSearchIconClick}
+                    className="text-blue-600 hover:text-blue-700"
+                >
+                    <CiSearch size={25} />
+                </button>
+            </div>
+        </div>
     );
 }
