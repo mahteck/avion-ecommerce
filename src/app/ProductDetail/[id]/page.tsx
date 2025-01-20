@@ -29,7 +29,7 @@ export default async function ProductDetail(context: { params: Promise<Params> }
         }`,
         { id: Number(id) }
     );
-    console.log(`Fetching product with id: ${id}`);
+    //console.log(`Fetching product with id: ${id}`);
 
     // Handle the case where the product is not found
     if (!product) {
@@ -39,7 +39,7 @@ export default async function ProductDetail(context: { params: Promise<Params> }
             </div>
         );
     }
-    console.log("Product data passed to component: ", product);
+    //console.log("Product data passed to component: ", product);
 
     return <ProductDetailClient product={product} />;
 }

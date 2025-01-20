@@ -29,7 +29,6 @@ export default async function ProductListing({ searchParams }: Props) {
     let queryParams: { [key: string]: string | null } = {};
 
     if (search) {
-        // If search term is provided
         query = `*[_type == "product" && (name match $search || category->name match $search)]{
             id,
             name,
@@ -40,9 +39,8 @@ export default async function ProductListing({ searchParams }: Props) {
                 name
             }
         }`;
-        queryParams = { search: `${search}*` }; // Use wildcards for partial matches
+        queryParams = { search: `${search}*` };
     } else if (category) {
-        // If category is provided
         query = `*[_type == "product" && category->name == $category]{
             id,
             name,
@@ -55,7 +53,6 @@ export default async function ProductListing({ searchParams }: Props) {
         }`;
         queryParams = { category };
     } else {
-        // Default query for all products
         query = `*[_type == "product"]{
             id,
             name,
@@ -68,7 +65,20 @@ export default async function ProductListing({ searchParams }: Props) {
         }`;
     }
 
-    const products: Product[] = await client.fetch(query, queryParams);
+    let products: Product[] = [];
+    let errorMessage = "";
+
+    try {
+        products = await client.fetch(query, queryParams);
+        console.log("Fetched products:", products); // Log fetched products
+    } catch (error: any) {
+        if (error.message.includes("NetworkError") || error.message.includes("Failed to fetch")) {
+            errorMessage = "Network issue detected. Please check your internet connection.";
+        } else {
+            errorMessage = `Error fetching products: ${error.message || error}`;
+        }
+        console.error("Error fetching products:", error);
+    }
 
     return (
         <div className="bg-white py-10 px-6 md:px-12 lg:px-24">
@@ -97,38 +107,44 @@ export default async function ProductListing({ searchParams }: Props) {
                         : "All Products"}
             </h1>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {products.length > 0 ? (
-                    products.map((product: Product) => (
-                        <div
-                            key={product.id}
-                            className="group flex flex-col items-center bg-gray-50 rounded-lg shadow-md overflow-hidden"
-                        >
-                            <Link href={`/ProductDetail/${product.id}`}>
-                                <div className="relative w-full h-64">
-                                    <img
-                                        src={product.imageUrl || "/images/default.png"}
-                                        alt={product.name}
-                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                                    />
+            {errorMessage ? (
+                <div className="text-center text-red-500">
+                    <p>{errorMessage}</p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {products.length > 0 ? (
+                        products.map((product: Product) => (
+                            <div
+                                key={product.id}
+                                className="group flex flex-col items-center bg-gray-50 rounded-lg shadow-md overflow-hidden"
+                            >
+                                <Link href={`/ProductDetail/${product.id}`}>
+                                    <div className="relative w-full h-64">
+                                        <img
+                                            src={product.imageUrl || "/images/default.png"}
+                                            alt={product.name}
+                                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                    </div>
+                                </Link>
+                                <div className="flex flex-col items-center p-4 w-full">
+                                    <h2 className="text-lg font-medium text-gray-700 text-center">
+                                        {product.name}
+                                    </h2>
+                                    <p className="text-sm font-semibold text-gray-500 text-center mt-2">
+                                        {product.price ? `${product.price}` : "Price Not Available"}
+                                    </p>
                                 </div>
-                            </Link>
-                            <div className="flex flex-col items-center p-4 w-full">
-                                <h2 className="text-lg font-medium text-gray-700 text-center">
-                                    {product.name}
-                                </h2>
-                                <p className="text-sm font-semibold text-gray-500 text-center mt-2">
-                                    {product.price ? `£${product.price}` : "Price Not Available"}
-                                </p>
                             </div>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-center text-gray-500 col-span-4">
-                        No products found matching your search.
-                    </p>
-                )}
-            </div>
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500 col-span-4">
+                            No products found matching your search.
+                        </p>
+                    )}
+                </div>
+            )}
 
             <div className="flex justify-center mt-10">
                 <Link href={{ pathname: '/ProductListing', query: {} }}>

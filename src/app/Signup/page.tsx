@@ -20,8 +20,14 @@ export default function Signup() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setError(''); // Reset error message before submitting
 
         try {
+            // Make sure the email is valid
+            if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
+                throw new Error('Please enter a valid email address');
+            }
+
             const res = await fetch('/api/signup', {
                 method: 'POST',
                 headers: {
@@ -36,8 +42,8 @@ export default function Signup() {
 
             setLoading(false);
             router.push('/login'); // Redirect to the login page on successful signup
-        } catch (err) {
-            setError(err.message);
+        } catch (err: any) {
+            setError(err.message || 'An unexpected error occurred');
             setLoading(false);
         }
     };
@@ -72,6 +78,10 @@ export default function Signup() {
                             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
+                        {/* Email validation error message */}
+                        {!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email) && email && (
+                            <p className="text-red-500 text-sm">Please enter a valid email address</p>
+                        )}
                     </div>
 
                     <div>

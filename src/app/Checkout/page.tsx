@@ -105,11 +105,11 @@ export default function CheckoutPage() {
                 }, 500);
             } else {
                 const errorData = await response.json();
-                console.error('Error placing order:', errorData.message || response.statusText);
+                //console.error('Error placing order:', errorData.message || response.statusText);
                 alert(errorData.message || 'Failed to place order. Please try again.');
             }
         } catch (error) {
-            console.error('Error placing order:', error);
+            // console.error('Error placing order:', error);
             alert('An unexpected error occurred. Please try again.');
         }
     };
@@ -195,9 +195,9 @@ export default function CheckoutPage() {
                                 {cartItems.map((item, index) => (
                                     <tr key={index}>
                                         <td className="border px-2 sm:px-4 py-2">{item.name}</td>
-                                        <td className="border px-2 sm:px-4 py-2">${item.price.toFixed(2)}</td>
+                                        <td className="border px-2 sm:px-4 py-2">{item.price.toFixed(2)}</td>
                                         <td className="border px-2 sm:px-4 py-2">{item.quantity}</td>
-                                        <td className="border px-2 sm:px-4 py-2">${(item.price * item.quantity).toFixed(2)}</td>
+                                        <td className="border px-2 sm:px-4 py-2">{(item.price * item.quantity).toFixed(2)}</td>
                                     </tr>
                                 ))}
                             </tbody>

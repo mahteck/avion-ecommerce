@@ -1,10 +1,12 @@
+import { defineField } from "sanity";
+
 export default {
     name: 'customer',
     type: 'document',
     title: 'Customer',
     fields: [
-        { name: 'name', type: 'string', title: 'Name' },
-        { name: 'email', type: 'string', title: 'Email' },
-        { name: 'phone', type: 'string', title: 'Phone Number' },
+        defineField({ name: 'name', type: 'string', title: 'Name' }),
+        defineField({ name: 'email', type: 'string', title: 'Email' }),
+        defineField({ name: 'phone', type: 'string', title: 'Phone Number' }),
     ],
 };

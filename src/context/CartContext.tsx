@@ -18,6 +18,7 @@ export interface CartContextType {
     cartItems: CartItem[];  // cartItems is the name used
     addToCart: (item: CartItem) => void;
     removeFromCart: (name: string) => void;
+    updateCartItem: (updatedItem: CartItem[]) => void; // Adding the updateCartItem method
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -36,6 +37,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
+    // Function to add an item to the cart
     const addToCart = (item: CartItem) => {
         setCartItems((prevCartItems) => {
             const updatedCartItems = [...prevCartItems, item];
@@ -44,6 +46,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
     };
 
+    // Function to remove an item from the cart
     const removeFromCart = (name: string) => {
         setCartItems((prevCartItems) => {
             const updatedCartItems = prevCartItems.filter(item => item.name !== name);
@@ -52,8 +55,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
     };
 
+    // Function to update an item in the cart (e.g., change quantity)
+    const updateCartItem = (updatedCartItems: CartItem[]) => {
+        setCartItems(updatedCartItems);
+        localStorage.setItem('cart', JSON.stringify(updatedCartItems)); // Save to localStorage
+    };
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateCartItem }}>
             {children}
         </CartContext.Provider>
     );
@@ -67,5 +76,3 @@ export const useCart = (): CartContextType => {
     }
     return context;
 };
-
-

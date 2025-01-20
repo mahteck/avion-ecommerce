@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function Cart() {
-    const { cartItems, removeFromCart } = useCart(); // Use cartItems dynamically
+    const { cartItems, removeFromCart, updateCartItem } = useCart(); // Use cartItems dynamically
     const [isClient, setIsClient] = useState(false);
     const [shippingCharges, setShippingCharges] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -35,7 +35,6 @@ export default function Cart() {
                     throw new Error("No rates found in the response");
                 }
             } catch (error) {
-                console.error("Error fetching shipping charges:", error);
                 setError("Failed to fetch shipping charges. Please try again.");
             } finally {
                 setLoading(false);
@@ -58,9 +57,25 @@ export default function Cart() {
         }
     };
 
+    const handleIncreaseQuantity = (itemName: string) => {
+        const updatedItem = cartItems.map((item) =>
+            item.name === itemName ? { ...item, quantity: item.quantity + 1 } : item
+        );
+        updateCartItem(updatedItem); // Update cart state with new quantity
+    };
+
+    const handleDecreaseQuantity = (itemName: string) => {
+        const updatedItem = cartItems.map((item) =>
+            item.name === itemName && item.quantity > 1
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
+        );
+        updateCartItem(updatedItem); // Update cart state with new quantity
+    };
+
     return (
         <div className="w-full px-4 py-8">
-            <div className="p-6 rounded-lg shadow-md mb-8">
+            <div className="p-6 rounded-lg shadow-md mb-8 bg-white">
                 <h2 className="text-2xl font-semibold text-left mb-6 text-gray-800">
                     Your Shopping Cart
                 </h2>
@@ -70,33 +85,28 @@ export default function Cart() {
                     {cartItems.length > 0 ? (
                         <>
                             {/* Table Header for Grid */}
-                            <div className="grid grid-cols-3 md:grid-cols-4 gap-4 items-center font-semibold text-gray-700 border-b pb-4">
-                                <div>Product</div>
-                                <div>Quantity</div>
-                                <div>Price</div>
-                                <div>Actions</div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-center font-semibold text-gray-700 border-b pb-4">
+                                <div className="text-left">Product</div>
+                                <div className="text-left">Quantity</div>
+                                <div className="text-right">Price</div>
+                                <div className="text-right">Actions</div>
                             </div>
 
                             {/* Cart Items List */}
                             {cartItems.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="grid grid-cols-3 md:grid-cols-4 gap-4 items-center"
+                                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-center"
                                 >
                                     <div className="flex items-center space-x-4">
-                                        {/* <img
-                                            src={item.imageUrl || "/images/default.png"} // Use dynamic image URL or fallback
-                                            alt={item.name}
-                                            className="w-24 h-24 object-cover rounded-md border border-gray-100"
-                                        /> */}
                                         <Image
-                                            src={item.imageUrl || "/images/default.png"} // Use dynamic image URL or fallback
+                                            src={item.imageUrl || "/images/default.png"}
                                             alt={item.name}
-                                            width={96} // Specify the width of the image (e.g., 24px * 4 for w-24)
-                                            height={96} // Specify the height of the image (e.g., 24px * 4 for h-24)
-                                            className="object-cover rounded-md border border-gray-100"
+                                            width={96}
+                                            height={96}
+                                            className="w-24 h-24 object-cover rounded-md border border-gray-100"
                                             placeholder="blur"
-                                            blurDataURL="/images/placeholder.png" // Optional: Provide a low-quality placeholder image
+                                            blurDataURL="/images/placeholder.png"
                                         />
                                         <div>
                                             <h3 className="font-semibold text-gray-800">
@@ -107,13 +117,25 @@ export default function Cart() {
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="text-right text-gray-800">
-                                        {item.quantity}
+                                    <div className="text-center sm:text-left text-gray-800 flex items-center justify-center space-x-2">
+                                        <button
+                                            onClick={() => handleDecreaseQuantity(item.name)}
+                                            className="bg-gray-300 text-gray-600 px-2 py-1 rounded-md"
+                                        >
+                                            -
+                                        </button>
+                                        <span>{item.quantity}</span>
+                                        <button
+                                            onClick={() => handleIncreaseQuantity(item.name)}
+                                            className="bg-gray-300 text-gray-600 px-2 py-1 rounded-md"
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                     <div className="text-right text-gray-800">
                                         £{(item.price * item.quantity).toFixed(2)}
                                     </div>
-                                    <div className="flex justify-end">
+                                    <div className="text-right">
                                         <button
                                             onClick={() => removeFromCart(item.name)}
                                             className="text-red-600 hover:text-red-800"

@@ -67,9 +67,9 @@ export default function OrderConfirmationPage() {
             };
 
             await client.create(orderDoc);
-            console.log('Order saved to Sanity successfully!');
+            //console.log('Order saved to Sanity successfully!');
         } catch (error) {
-            console.error('Error saving order to Sanity:', error);
+            //console.error('Error saving order to Sanity:', error);
         }
     };
 
