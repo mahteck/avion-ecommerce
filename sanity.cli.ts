@@ -6,6 +6,6 @@ import { defineCliConfig } from 'sanity/cli'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
-const token = process.env.NEXT_PUBLIC_SANITY_API_TOKEN
+// const token = process.env.NEXT_PUBLIC_SANITY_API_TOKEN
 
-export default defineCliConfig({ api: { projectId, dataset, token } })
+export default defineCliConfig({ api: { projectId, dataset } })

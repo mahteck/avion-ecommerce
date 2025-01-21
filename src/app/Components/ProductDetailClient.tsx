@@ -54,8 +54,18 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         }
     };
 
+    // const handleAddToCart = () => {
+    //     const productWithQuantity = { ...product, quantity };
+    //     addToCart(productWithQuantity);
+    // };
+
     const handleAddToCart = () => {
-        const productWithQuantity = { ...product, quantity };
+        const productWithQuantity = {
+            ...product,
+            quantity,
+            image: product.imageUrl, // Map imageUrl to image
+        };
+    
         addToCart(productWithQuantity);
     };
 
