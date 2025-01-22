@@ -34,7 +34,7 @@ export default function OrderConfirmationPage() {
     const saveOrderToSanity = async (orderDetails: OrderDetails) => {
         try {
             // Check if customer already exists
-            const customerQuery = `*[_type == "user" && email == $email][0]`;
+            const customerQuery = `*[_type == "customer" && email == $email][0]`;
             const existingCustomer = await client.fetch(customerQuery, {
                 email: orderDetails.email,
             });
@@ -45,7 +45,7 @@ export default function OrderConfirmationPage() {
             // If not, create a new customer
             if (!customerId) {
                 const customerDoc = {
-                    _type: 'user',
+                    _type: 'customer',
                     name: orderDetails.customerName,
                     email: orderDetails.email,
                     phone: orderDetails.phone,
@@ -59,6 +59,7 @@ export default function OrderConfirmationPage() {
                 _type: 'order',
                 trackingNumber: orderDetails.trackingNumber,
                 total: orderDetails.total,
+                status: 'pending',
                 customer: { _type: 'reference', _ref: customerId },  // Reference to customer (existing or newly created)
                 cartItems: orderDetails.cartItems.map((item) => ({
                     _type: 'cartItem',
@@ -66,7 +67,6 @@ export default function OrderConfirmationPage() {
                     name: item.name,
                     price: item.price,
                     quantity: item.quantity,
-                    status: 'pending',
                 })),
             };
 

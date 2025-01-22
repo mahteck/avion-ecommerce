@@ -16,6 +16,12 @@ export default {
             to: [{ type: 'customer' }],
             title: 'Customer',
         }),
+        // defineField({
+        //     name: 'user',
+        //     type: 'reference',
+        //     to: [{ type: 'user' }],
+        //     title: 'customer',
+        // }),
         defineField({
             name: 'cartItems',
             type: 'array',

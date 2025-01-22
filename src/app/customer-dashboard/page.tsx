@@ -49,14 +49,36 @@ export default function CustomerDashboard() {
                     return;
                 }
 
+                const userEmail = await client.fetch(
+                    `*[_type == "user" && _id == $userId][0].email`,
+                    { userId }
+                );
+                console.log(userEmail);
+
                 const [profile, orders, wishlist] = await Promise.all([
                     // Fetch customer profile using userId
                     client.fetch(`*[_type == "user" && _id == $userId][0]{ name, email }`, { userId }),
 
                     // Fetch orders using customer._id
+                    // client.fetch(
+                    //     `*[_type == "order" && customer._ref == $userId]{ _id, trackingNumber, total, status, _createdAt } | order(_createdAt desc)`,
+                    //     { userId }
+                    // ),
+
+                    // client.fetch(
+                    //     `*[_type == "order" && (user._ref == $userId || customer._ref == $userId)]{ _id, trackingNumber, total, status, _createdAt } | order(_createdAt desc)`,
+                    //     { userId }
+                    // ),
+
                     client.fetch(
-                        `*[_type == "order" && customer._ref == $userId]{ _id, trackingNumber, total, status, _createdAt } | order(_createdAt desc)`,
-                        { userId }
+                        `*[_type == "order" && customer._ref in *[_type == "user" && email in *[_type == "user" && email == $email].email]._id]{ 
+                            _id, 
+                            trackingNumber, 
+                            total, 
+                            status, 
+                            _createdAt 
+                        } | order(_createdAt desc)`,
+                        { email: userEmail }
                     ),
 
                     // Fetch wishlist using userId
