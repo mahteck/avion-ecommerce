@@ -21,10 +21,22 @@ export default {
             type: 'string'
         }),
         defineField({
+            name: 'role',
+            title: 'Role',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'Admin', value: 'admin' },
+                    { title: 'Customer', value: 'customer' }
+                ]
+            },
+            validation: Rule => Rule.required().error('Role is required')
+        }),
+        defineField({
             name: 'createdAt',
             title: 'Created At',
             type: 'datetime',
             initialValue: () => new Date().toISOString()
-        })
+        }),
     ]
 };

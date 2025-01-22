@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         }
 
         const hashedPassword = bcrypt.hashSync(password, 10);
-        const userData = { _type: 'user', name, email, password: hashedPassword };
+        const userData = { _type: 'user', name, email, password: hashedPassword, role:'customer' };
 
         const user = await client.create(userData);
 

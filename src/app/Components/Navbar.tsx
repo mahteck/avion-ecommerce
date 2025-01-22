@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoCartOutline } from 'react-icons/io5';
-import { IoIosContact, IoIosHome } from 'react-icons/io';
+import { IoIosContact, IoIosHome, IoIosLogIn } from 'react-icons/io';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
@@ -117,8 +117,11 @@ export default function Navbar() {
                             )}
                         </Link>
                     </div>
-                    <Link href="/Profile">
+                    <Link href="/ProfileEdit">
                         <IoIosContact size={25} className="text-[#2A254B]" />
+                    </Link>
+                    <Link href="/Login">
+                        <IoIosLogIn size={25} className="text-[#2A254B]" />
                     </Link>
                 </div>
 

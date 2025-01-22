@@ -27,5 +27,10 @@ export default {
             type: 'number',
             title: 'Total Amount'
         }),
+        defineField({
+            name: 'status',
+            type: 'string',
+            title: 'Status'
+        }),
     ],
 };
