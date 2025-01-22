@@ -1,6 +1,6 @@
 {
     "functions": {
-      "/api/login/route.ts": { "memory": 128, "maxDuration": 10 },
-      "/api/place-order/route.ts": { "memory": 128, "maxDuration": 10 }
+      "src/app/api/login/route.ts": { "memory": 128, "maxDuration": 10 },
+      "src/app/api/place-order/route.ts": { "memory": 128, "maxDuration": 10 }
     }
   }
