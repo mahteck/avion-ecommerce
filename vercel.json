@@ -1,6 +1,6 @@
 {
     "functions": {
-      "src/app/api/login/route.ts": { "runtime": "nodejs"  },
-      "src/app/api/place-order/route.ts": { "runtime": "nodejs"  }
+      "src/app/api/login/route.ts": { "runtime": "vercel-node@18.x"  },
+      "src/app/api/place-order/route.ts": { "runtime": "vercel-node@18.x"  }
     }
   }
