@@ -23,7 +23,7 @@ const Footer = () => {
                 </div>
 
                 {/* Categories Section */}
-                <div className="text-gray-500">
+                {/* <div className="text-gray-500">
                     <h1 className="text-lg md:text-xl font-bold">Categories</h1>
                     <div className="space-y-2">
                         <h1><Link href="/">Crockery</Link></h1>
@@ -32,7 +32,7 @@ const Footer = () => {
                         <h1><Link href="/">Plant Pots</Link></h1>
                         <h1><Link href="/">Chairs</Link></h1>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Company Section */}
                 <div className="text-gray-500">

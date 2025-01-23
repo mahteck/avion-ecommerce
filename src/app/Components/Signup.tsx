@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Hero() {
     return (
         <div>
@@ -11,9 +13,11 @@ export default function Hero() {
                         placeholder="Your email address"
                         className="px-6 py-3 rounded-md border border-gray-300 text-gray-800"
                     />
-                    <button className="bg-gray-700 text-white px-6 py-3 rounded-md ml-4 hover:bg-gray-600">
-                        Sign Up
-                    </button>
+                    <Link href="/Signup">
+                        <button className="bg-gray-700 text-white px-6 py-3 rounded-md ml-4 hover:bg-gray-600">
+                            Sign Up
+                        </button>
+                    </Link>
                 </div>
             </section>
         </div>
