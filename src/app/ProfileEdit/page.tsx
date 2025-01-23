@@ -83,7 +83,7 @@ export default function EditProfile() {
 
     const handleLogout = () => {
         localStorage.removeItem('userId');
-        router.push('/login'); // Redirect to login page after logout
+        router.push('/Login'); // Redirect to login page after logout
     };
 
     return (

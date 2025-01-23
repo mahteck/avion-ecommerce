@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import { useRouter } from 'next/navigation'; // For client-side navigation
 import { useCart } from '@/context/CartContext';
+import { SiIconfinder } from 'react-icons/si';
+import { FaTruck } from 'react-icons/fa';
 
 type Category = {
     name: string;
@@ -119,6 +121,10 @@ export default function Navbar() {
                     </div>
                     <Link href="/ProfileEdit">
                         <IoIosContact size={25} className="text-[#2A254B]" />
+                    </Link>
+                    <Link href="/OrderTracking" className="flex items-center">
+                        <FaTruck size={25} className="text-[#2A254B]" />
+                        <span className="ml-2 text-[#2A254B]">Track Order</span> {/* Optional text */}
                     </Link>
                     <Link href="/Login">
                         <IoLogIn size={25} className="text-[#2A254B]" />
