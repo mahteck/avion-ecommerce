@@ -133,7 +133,7 @@ export default function Cart() {
                                         </button>
                                     </div>
                                     <div className="text-right text-gray-800">
-                                        £{(item.price * item.quantity).toFixed(2)}
+                                        {(item.price * item.quantity).toFixed(2)}
                                     </div>
                                     <div className="text-right">
                                         <button
@@ -157,7 +157,7 @@ export default function Cart() {
                         Subtotal
                     </h1>
                     <h1 className="inline text-xl sm:text-2xl font-semibold">
-                        £{calculateTotal().toFixed(2)}
+                        {calculateTotal().toFixed(2)}
                     </h1>
                     <p className="text-sm mt-4">
                         Taxes and shipping are calculated at checkout
