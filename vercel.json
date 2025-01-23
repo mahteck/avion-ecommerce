@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "next.config.js", "use": "@vercel/next" }
+  ],
+  "functions": {
+    "src/app/api/login/route.ts": { "runtime": "nodejs18.x" },
+    "src/app/api/place-order/route.ts": { "runtime": "nodejs18.x" }
+  }
+}
