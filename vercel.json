@@ -1,6 +1,0 @@
-{
-    "functions": {
-      "src/app/api/login/route.ts": { "runtime": "nodejs18.x"  },
-      "src/app/api/place-order/route.ts": { "runtime": "nodejs18.x"  }
-    }
-  }
