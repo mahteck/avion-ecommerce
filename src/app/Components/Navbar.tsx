@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoCartOutline, IoLogIn } from 'react-icons/io5';
-import { IoIosContact, IoIosHome } from 'react-icons/io';
+import { IoIosContact, IoIosHome, IoIosLogIn } from 'react-icons/io';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
 import { useRouter } from 'next/navigation'; // For client-side navigation
 import { useCart } from '@/context/CartContext';
 import { SiIconfinder } from 'react-icons/si';
-import { FaTruck } from 'react-icons/fa';
+import { FaSign, FaTruck } from 'react-icons/fa';
 
 type Category = {
     name: string;
@@ -107,28 +107,31 @@ export default function Navbar() {
                     </button>
 
                     <Link href="/">
-                        <IoIosHome size={25} className="text-[#2A254B]" />
+                        <IoIosHome size={28} className="text-[#2A254B] hover:text-purple-600 transition" />
                     </Link>
+
+                    <Link href="/Login">
+                        <IoLogIn size={28} className="text-[#2A254B] hover:text-purple-600" />
+                    </Link>
+
                     <div className="relative">
                         <Link href="/Cart">
-                            <IoCartOutline size={25} className="text-[#2A254B]" />
-                            {cartCount > 0 && (
-                                <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 py-1 text-xs shadow-md">
-                                    {cartCount}
-                                </span>
-                            )}
+                            <IoCartOutline size={28} className="text-[#2A254B] hover:text-purple-600 transition" />
                         </Link>
+                        {cartCount > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 py-1 text-xs shadow-md">
+                                {cartCount}
+                            </span>
+                        )}
                     </div>
-                    <Link href="/ProfileEdit">
+                    {/* <Link href="/ProfileEdit">
                         <IoIosContact size={25} className="text-[#2A254B]" />
+                    </Link> */}
+                    <Link href="/order-tracking" className="flex items-center">
+                        <FaTruck size={25} className="text-[#2A254B] hover:text-purple-600" />
                     </Link>
-                    <Link href="/OrderTracking" className="flex items-center">
-                        <FaTruck size={25} className="text-[#2A254B]" />
-                        <span className="ml-2 text-[#2A254B]">Track Order</span> {/* Optional text */}
-                    </Link>
-                    <Link href="/Login">
-                        <IoLogIn size={25} className="text-[#2A254B]" />
-                    </Link>
+
+                   
                 </div>
 
                 {/* Hamburger Menu for Mobile */}

@@ -111,41 +111,43 @@ export default function CustomerDashboard() {
 
         {/* Order History Section */}
         <div className="bg-white shadow-xl rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Order History</h2>
-          {customerData.orders.length > 0 ? (
-            <table className="w-full text-left table-auto">
-              <thead>
-                <tr className="text-sm font-medium text-gray-600 border-b">
-                  <th className="py-2 px-4">Order ID</th>
-                  <th className="py-2 px-4">Total</th>
-                  <th className="py-2 px-4">Status</th>
-                  <th className="py-2 px-4">Date</th>
-                  <th className="py-2 px-4">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customerData.orders.map((order) => (
-                  <tr key={order._id} className="border-b">
-                    <td className="py-2 px-4">{order.trackingNumber}</td>
-                    <td className="py-2 px-4">${order.total.toFixed(2)}</td>
-                    <td className="py-2 px-4">{order.status}</td>
-                    <td className="py-2 px-4">{new Date(order._createdAt).toLocaleDateString()}</td>
-                    <td className="py-2 px-4">
-                      <Link
-                        href={`/OrderTracking?id=${order.trackingNumber}`}
-                        className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
-                      >
-                        Track Order
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p className="text-gray-500">You have no orders yet.</p>
-          )}
-        </div>
+  <h2 className="text-2xl font-semibold text-gray-800 mb-4">Order History</h2>
+  {customerData.orders.length > 0 ? (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left table-auto">
+        <thead>
+          <tr className="text-sm font-medium text-gray-600 border-b">
+            <th className="py-2 px-4">Order ID</th>
+            <th className="py-2 px-4">Total</th>
+            <th className="py-2 px-4">Status</th>
+            <th className="py-2 px-4">Date</th>
+            <th className="py-2 px-4">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {customerData.orders.map((order) => (
+            <tr key={order._id} className="border-b">
+              <td className="py-2 px-4">{order.trackingNumber}</td>
+              <td className="py-2 px-4">${order.total.toFixed(2)}</td>
+              <td className="py-2 px-4">{order.status}</td>
+              <td className="py-2 px-4">{new Date(order._createdAt).toLocaleDateString()}</td>
+              <td className="py-2 px-4">
+                <Link
+                  href={`/OrderTracking/${order.trackingNumber}`}
+                  className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 transition"
+                >
+                  Track Order
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <p className="text-gray-500">You have no orders yet.</p>
+  )}
+</div>
       </div>
     </div>
   );
