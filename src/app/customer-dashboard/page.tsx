@@ -128,7 +128,7 @@ export default function CustomerDashboard() {
           {customerData.orders.map((order) => (
             <tr key={order._id} className="border-b">
               <td className="py-2 px-4">{order.trackingNumber}</td>
-              <td className="py-2 px-4">${order.total.toFixed(2)}</td>
+              <td className="py-2 px-4">{order.total.toFixed(2)}</td>
               <td className="py-2 px-4">{order.status}</td>
               <td className="py-2 px-4">{new Date(order._createdAt).toLocaleDateString()}</td>
               <td className="py-2 px-4">

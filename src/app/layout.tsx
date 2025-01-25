@@ -30,6 +30,7 @@ export default function RootLayout({
       <body
         className={inter.className}
       >
+
         <CartProvider>
           <Navbar />
           <CartDisplay />
