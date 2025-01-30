@@ -11,6 +11,16 @@ export default {
             title: 'Tracking Number'
         }),
         defineField({
+            name: 'city',
+            type: 'string',
+            title: 'City'
+        }),
+        defineField({
+            name: 'shippingAddress',
+            type: 'string',
+            title: 'Shipping Address'
+        }),
+        defineField({
             name: 'customer',
             type: 'reference',
             to: [{ type: 'customer' }],

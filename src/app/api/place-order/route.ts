@@ -6,10 +6,10 @@ export async function POST(req: Request) {
         const body = await req.json();
         console.log("Received request body:", body);
 
-        const { cartItems, shippingAddress, paymentMethod, total } = body;
+        const { cartItems, city, shippingAddress, paymentMethod, total } = body;
 
         // Validate required fields
-        if (!cartItems || !shippingAddress || !paymentMethod || !total) {
+        if (!cartItems || !city || !shippingAddress || !paymentMethod || !total) {
             return NextResponse.json(
                 { message: "Missing required fields" },
                 { status: 400 }
@@ -22,6 +22,7 @@ export async function POST(req: Request) {
         // Process the order (e.g., save to database or send to payment gateway)
         console.log("Processing order:", {
             cartItems,
+            city,
             shippingAddress,
             paymentMethod,
             total,
